@@ -35,3 +35,14 @@
     color: black;
     border-radius: 4px;
 }
+
+.cart-widget {
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.cart-widget .cart-count {
+    margin-left: 5px;
+    font-size: 14px;
+}

@@ -1,3 +1,4 @@
+import CartWidget from "../CartWidget";
 import "./style.css"
 
 function NavBar () {
@@ -12,6 +13,9 @@ function NavBar () {
                     <li><a href="https://www.google.com/" >Novidades</a></li>
                 </ul>
             </nav>
+
+            <CartWidget />
+
         </div>
     );
 }
