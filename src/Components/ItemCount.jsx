@@ -22,11 +22,14 @@ function ItemCount({ stock, initial = 0, onAdd }) {
   };
 
   return (
-    <div style={{ margin: '100px', padding: '10px', border: '0px solid #333' }}>
-      <button onClick={handleDecrease} disabled={quantity <= 1}>-</button>
-      <span style={{ margin: '0 40px' }}>{quantity}</span>
-      <button onClick={handleIncrease} disabled={quantity >= stock}>+</button>
-      <br />
+    <div>
+    <div className="item-count">
+        <button onClick={handleDecrease} disabled={quantity <= 1}>-</button>
+        <span>{quantity}</span> {}
+        <button onClick={handleIncrease} disabled={quantity >= stock}>+</button>
+      </div>
+
+      {}
       <button onClick={handleAddToCart} disabled={stock === 0}>
         Adicionar ao Carrinho
       </button>
