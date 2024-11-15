@@ -12,13 +12,16 @@ function App() {
       <div className="App">
         <NavBar />
         <Routes>
-          {}
-          <Route 
-            path="/" 
-            element={<ItemListContainer greeting="Magtil Store" isHomePage={true} />} 
+          { }
+          <Route
+            path="/"
+            element={<ItemListContainer greeting="Magtil Store" isHomePage={true} />}
           />
+          { }
           <Route path="/products" element={<ProductsPage />} />
+          { }
           <Route path="/cart" element={<CartPage />} />
+          { }
           <Route path="/product/:id" element={<ItemDetailContainer />} />
         </Routes>
       </div>
@@ -27,6 +30,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
