@@ -6,7 +6,13 @@ function Item({ id, title, description, price, pictureUrl }) {
       <img
         src={pictureUrl}
         alt={title}
-        style={{ width: '200px', height: 'auto', marginBottom: '10px' }}
+        style={{ 
+          width: '200px',
+          height: '300px',
+          objectFit: 'contain',
+          objectPosition: 'center',
+          marginBottom: '10px'
+        }}
       />
       <h3>{title}</h3>
       <p>{description}</p>
@@ -16,4 +22,6 @@ function Item({ id, title, description, price, pictureUrl }) {
 }
 
 export default Item;
+
+
 
