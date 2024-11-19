@@ -1,68 +1,56 @@
 .NavBar {
-    background-color: #333;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    color: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-  }
-  
-  .NavBar h1 {
-    margin: 0;
-    font-size: 24px;
-    font-weight: bold;
-  }
-  
-  .NavBar nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-  }
-  
-  .NavBar nav ul li {
-    margin-left: 20px;
-  }
-  
-  .NavBar nav ul li a {
-    color: white;
-    text-decoration: none;
-    padding: 10px 15px;
-    font-size: 16px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    border-radius: 4px;
-  }
-  
-  .NavBar nav ul li a:hover {
-    background-color: #ddd;
-    color: #333;
-  }
-  
-  .NavBar .cart-widget {
-    display: flex;
-    align-items: center;
-    color: white;
-  }
-  
-  .NavBar .cart-widget .cart-count {
-    margin-left: 5px;
-    font-size: 14px;
-  }
-  
-  .NavBar nav ul li a:focus, .NavBar nav ul li a:hover {
-    outline: none;
-  }
-  
-  .NavBar .cart-widget {
-    font-size: 18px;
-    font-weight: bold;
-  }
-  
-  .NavBar nav ul li a {
-    font-family: 'Arial', sans-serif;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #333;
+  color: white;
+}
+
+.NavBar h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.NavBar nav ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.NavBar nav ul li {
+  margin: 0 15px;
+}
+
+.NavBar nav ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+.NavBar nav ul li a:hover {
+  text-decoration: underline;
+}
+
+.cart-link {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.cart-counter {
+  background-color: red;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -5px;
+  right: -10px;
+}
   
