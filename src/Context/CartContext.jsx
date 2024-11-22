@@ -5,45 +5,42 @@ const CartContext = createContext();
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
 
-  const addToCart = (product, quantity) => {
+  const addToCart = (item, quantity) => {
     setCart((prevCart) => {
-      const existingProduct = prevCart.find((item) => item.id === product.id);
-      if (existingProduct) {
-        return prevCart.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
+      const existingItem = prevCart.find((i) => i.id === item.id);
+      if (existingItem) {
+        return prevCart.map((i) =>
+          i.id === item.id ? { ...i, quantity: i.quantity + quantity } : i
         );
-      } else {
-        return [...prevCart, { ...product, quantity }];
       }
+      return [...prevCart, { ...item, image: item.pictureUrl, description: item.description, quantity }];
     });
-    console.log("Carrinho atualizado:", cart);
   };
   
 
-  const getTotalItems = () => cart.reduce((total, item) => total + item.quantity, 0);
-
-  const getTotalPrice = () => cart.reduce((total, item) => total + item.price * item.quantity, 0);
+  const removeFromCart = (id) => {
+    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+  };
 
   const clearCart = () => setCart([]);
 
+  const getTotalPrice = () => {
+    return cart.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
+  };
+
+  const getTotalItems = () => {
+    return cart.reduce((total, item) => total + item.quantity, 0);
+  };
+
   return (
     <CartContext.Provider
-      value={{
-        cart,
-        addToCart,
-        getTotalItems,
-        getTotalPrice,
-        clearCart,
-      }}
+      value={{ cart, addToCart, removeFromCart, clearCart, getTotalPrice, getTotalItems }}
     >
       {children}
     </CartContext.Provider>
   );
 }
 
-export function useCart() {
-  return useContext(CartContext);
-}
+export const useCart = () => useContext(CartContext);
+
 
