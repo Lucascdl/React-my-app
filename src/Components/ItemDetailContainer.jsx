@@ -1,30 +1,48 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import ItemDetail from './ItemDetail';
+import { products } from '../Data/Products';
+import ItemList from './ItemList.jsx';
+import { useCart } from '../Context/CartContext';
 
-const getItemById = (id) => {
-  const mockItems = [
-    { id: 1, title: "Camiseta Básica Poliamida", description: "Uma camiseta básica de poliamida, confortável e ideal para o dia a dia.", price: 89.99, pictureUrl: "/assets/camiseta-rosa.jpg" },
-    { id: 2, title: "Camiseta de Algodão", description: "Camiseta leve de algodão para o verão.", price: 79.99, pictureUrl: "/assets/camiseta-verde.jpg" },
-  ];
+function ItemListContainer({ greeting, selectedCategory, isHomePage }) {
+    const [items, setItems] = useState([]);
+    const [filteredItems, setFilteredItems] = useState([]);
+    const { addToCart } = useCart();
 
-  return mockItems.find(item => item.id === parseInt(id));
-};
+    useEffect(() => {
+        const fetchItems = async () => {
+            let availableProducts = isHomePage ? products.slice(0, 4) : products;
 
-function ItemDetailContainer() {
-  const { id } = useParams();
-  const [item, setItem] = useState(null);
+            return new Promise((resolve) => {
+                setTimeout(() => resolve(availableProducts), 2000);
+            });
+        };
 
-  useEffect(() => {
-    const fetchedItem = getItemById(id);
-    setItem(fetchedItem);
-  }, [id]);
+        fetchItems().then((data) => setItems(data));
+    }, [isHomePage]);
 
-  return (
-    <div>
-      {item ? <ItemDetail item={item} /> : <p>Carregando...</p>}
-    </div>
-  );
+    useEffect(() => {
+        if (selectedCategory) {
+            setFilteredItems(items.filter(item => item.title === selectedCategory));
+        } else {
+            setFilteredItems(items);
+        }
+    }, [items, selectedCategory]);
+
+    const handleAddToCart = (id, quantity) => {
+      const product = items.find((item) => item.id === id);
+      if (product) {
+        addToCart(product, quantity);
+        console.log(`Produto adicionado ao carrinho:`, product, `Quantidade:`, quantity);
+      }
+    };
+
+    return (
+        <div>
+            <h2>{greeting}</h2>
+            <ItemList items={filteredItems} onAddToCart={handleAddToCart} />
+        </div>
+    );
 }
 
-export default ItemDetailContainer;
+export default ItemListContainer;
+

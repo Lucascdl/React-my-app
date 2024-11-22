@@ -1,8 +1,10 @@
 import React from 'react';
-import { useCart } from '../Context/CartContext';  // Importando o hook do contexto
+import { useCart } from '../Context/CartContext';
 
 function CartPage() {
-  const { cart, getTotalPrice } = useCart();  // Acessando os itens e o total
+  const { cart, getTotalPrice, clearCart } = useCart();
+
+  console.log("Carrinho na página de carrinho:", cart);
 
   return (
     <div>
@@ -18,7 +20,8 @@ function CartPage() {
               </li>
             ))}
           </ul>
-          <h3>Total: R$ {getTotalPrice()}</h3>
+          <h3>Total: R$ {getTotalPrice().toFixed(2)}</h3>
+          <button onClick={clearCart}>Limpar Carrinho</button>
         </div>
       )}
     </div>

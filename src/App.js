@@ -5,25 +5,18 @@ import ItemListContainer from './Components/ItemListContainer';
 import ItemDetailContainer from './Components/ItemDetailContainer';
 import ProductsPage from './Pages/ProductsPage';
 import CartPage from './Pages/CartPage';
-import { CartProvider } from './Context/CartContext'; // Importando o CartProvider
+import { CartProvider } from './Context/CartContext';
 
 function App() {
   return (
-    <CartProvider> {/* Envolvendo com o provedor do contexto */}
+    <CartProvider>
       <Router>
         <div className="App">
-          <NavBar /> {/* Menu de navegação */}
+          <NavBar />
           <Routes>
-            {/* Página inicial */}
-            <Route 
-              path="/" 
-              element={<ItemListContainer greeting="Magtil Store" isHomePage={true} />} 
-            />
-            {/* Página de produtos */}
+            <Route path="/" element={<ItemListContainer greeting="Magtil Store" isHomePage={true} />} />
             <Route path="/products" element={<ProductsPage />} />
-            {/* Página do carrinho */}
             <Route path="/cart" element={<CartPage />} />
-            {/* Página de detalhes do produto */}
             <Route path="/product/:id" element={<ItemDetailContainer />} />
           </Routes>
         </div>

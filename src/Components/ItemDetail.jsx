@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import ItemCount from './ItemCount';
-import { useCart } from '../Context/CartContext'; // Importa o contexto do carrinho
-import { Link } from 'react-router-dom'; // Importando o Link para navegação
+import { useCart } from '../Context/CartContext';
+import { Link } from 'react-router-dom';
 
 function ItemDetail({ item }) {
-  const { addToCart } = useCart(); // Hook para usar a função do contexto
+  const { addToCart } = useCart();
   const [isAdded, setIsAdded] = useState(false);
 
   const handleAddToCart = (quantity) => {
-    addToCart(item, quantity); // Adiciona o item ao carrinho
-    setIsAdded(true); // Marca que o item foi adicionado
+    addToCart(item, quantity);
+    setIsAdded(true);
   };
 
   return (

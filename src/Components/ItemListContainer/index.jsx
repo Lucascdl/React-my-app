@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { products } from '../../Data/Products';
 import ItemList from '../ItemList.jsx';
+import { useCart } from '../../Context/CartContext';
 
 function ItemListContainer({ greeting, selectedCategory, isHomePage }) {
   const [items, setItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     const fetchItems = async () => {
-      
       let availableProducts = isHomePage
         ? products.slice(0, 4)
         : products;
@@ -21,7 +22,6 @@ function ItemListContainer({ greeting, selectedCategory, isHomePage }) {
     fetchItems().then((data) => setItems(data));
   }, [isHomePage]);
 
-  
   useEffect(() => {
     if (selectedCategory) {
       setFilteredItems(items.filter(item => item.title === selectedCategory));
@@ -30,9 +30,12 @@ function ItemListContainer({ greeting, selectedCategory, isHomePage }) {
     }
   }, [items, selectedCategory]);
 
-  const handleAddToCart = (id, quantity) => {
-    console.log(`Produto ID: ${id}, Quantidade adicionada ao carrinho: ${quantity}`);
+  const handleAddToCart = (item, quantity) => {
+      addToCart(item, quantity);
+      console.log(`Adicionado ao carrinho: ${item.title} - Quantidade: ${quantity}`);
+    
   };
+  
 
   return (
     <div>
@@ -43,4 +46,5 @@ function ItemListContainer({ greeting, selectedCategory, isHomePage }) {
 }
 
 export default ItemListContainer;
+
 

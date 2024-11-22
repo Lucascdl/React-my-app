@@ -17,7 +17,7 @@ function ItemCount({ stock, initial = 1, onAdd }) {
 
     const handleAddToCart = () => {
         if (stock > 0) {
-            onAdd(quantity); // Adiciona a quantidade ao carrinho
+            onAdd(quantity);
         }
     };
 

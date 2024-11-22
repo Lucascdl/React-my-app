@@ -1,10 +1,10 @@
 import React from 'react';
-import { useCart } from '../../Context/CartContext';  // Importando o contexto
+import { useCart } from "../../Context/CartContext";
 
 function CartWidget() {
-    const { getTotalItems } = useCart();  // Consome o total de itens do carrinho
+    const { getTotalItems } = useCart();
 
-    const totalItems = getTotalItems();  // Obtém o número total de itens no carrinho
+    const totalItems = getTotalItems();
 
     return (
         <div style={{ position: 'relative', display: 'inline-block' }}>
@@ -28,3 +28,5 @@ function CartWidget() {
 }
 
 export default CartWidget;
+
+
