@@ -1,48 +1,50 @@
 import React, { useState, useEffect } from 'react';
-import { products } from '../Data/Products';
-import ItemList from './ItemList.jsx';
+import { doc, getDoc } from "firebase/firestore";
+import { useParams } from "react-router-dom";
+import db from '../Services/firebase';
+import ItemDetail from './ItemDetail.jsx';
 import { useCart } from '../Context/CartContext';
 
-function ItemListContainer({ greeting, selectedCategory, isHomePage }) {
-    const [items, setItems] = useState([]);
-    const [filteredItems, setFilteredItems] = useState([]);
-    const { addToCart } = useCart();
+function ItemDetailContainer() {
+  const { id } = useParams();
+  const [item, setItem] = useState(null);
+  const { addToCart } = useCart();
 
-    useEffect(() => {
-        const fetchItems = async () => {
-            let availableProducts = isHomePage ? products.slice(0, 4) : products;
-
-            return new Promise((resolve) => {
-                setTimeout(() => resolve(availableProducts), 2000);
-            });
-        };
-
-        fetchItems().then((data) => setItems(data));
-    }, [isHomePage]);
-
-    useEffect(() => {
-        if (selectedCategory) {
-            setFilteredItems(items.filter(item => item.title === selectedCategory));
+  useEffect(() => {
+    const fetchItemFromFirestore = async () => {
+      try {
+        const docRef = doc(db, "produtos", id);
+        const docSnapshot = await getDoc(docRef);
+        if (docSnapshot.exists()) {
+          setItem({ id: docSnapshot.id, ...docSnapshot.data() });
         } else {
-            setFilteredItems(items);
+          console.error("Documento não encontrado!");
         }
-    }, [items, selectedCategory]);
-
-    const handleAddToCart = (id, quantity) => {
-      const product = items.find((item) => item.id === id);
-      if (product) {
-        addToCart(product, quantity);
-        console.log(`Produto adicionado ao carrinho:`, product, `Quantidade:`, quantity);
+      } catch (error) {
+        console.error("Erro ao buscar item do Firestore:", error);
       }
     };
 
-    return (
-        <div>
-            <h2>{greeting}</h2>
-            <ItemList items={filteredItems} onAddToCart={handleAddToCart} />
-        </div>
-    );
+    fetchItemFromFirestore();
+  }, [id]);
+
+  const handleAddToCart = (quantity) => {
+    if (item) {
+      addToCart(item, quantity);
+      console.log(`Produto adicionado ao carrinho:`, item, `Quantidade:`, quantity);
+    }
+  };
+
+  return (
+    <div>
+      {item ? (
+        <ItemDetail item={item} onAddToCart={handleAddToCart} />
+      ) : (
+        <p>Carregando item...</p>
+      )}
+    </div>
+  );
 }
 
-export default ItemListContainer;
+export default ItemDetailContainer;
 

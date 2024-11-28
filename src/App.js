@@ -6,6 +6,7 @@ import ItemDetailContainer from './Components/ItemDetailContainer';
 import ProductsPage from './Pages/ProductsPage';
 import CartPage from './Pages/CartPage';
 import { CartProvider } from './Context/CartContext';
+import Banner from './Components/banner/banner';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Router>
         <div className="App">
           <NavBar />
+          <Banner/>
           <Routes>
             <Route path="/" element={<ItemListContainer greeting="Magtil Store" isHomePage={true} />} />
             <Route path="/products" element={<ProductsPage />} />

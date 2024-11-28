@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { products } from '../../Data/Products';
-import ItemList from '../ItemList.jsx';
-import { useCart } from '../../Context/CartContext';
+import React, { useState, useEffect } from "react";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import db from "../../Services/firebase";
+import ItemList from "../ItemList";
+import { useCart } from "../../Context/CartContext";
 
 function ItemListContainer({ greeting, selectedCategory, isHomePage }) {
   const [items, setItems] = useState([]);
@@ -10,32 +11,53 @@ function ItemListContainer({ greeting, selectedCategory, isHomePage }) {
 
   useEffect(() => {
     const fetchItems = async () => {
-      let availableProducts = isHomePage
-        ? products.slice(0, 4)
-        : products;
+      try {
+        let itemQuery;
 
-      return new Promise((resolve) => {
-        setTimeout(() => resolve(availableProducts), 2000);
-      });
+        if (isHomePage) {
+          
+          const featuredProducts = ["kGkdlXxFNiDdzZ4wxma0", "sIZ9KuBUlOrq4S24CtYb", "I0cIT9GcMcIa2vtsvSD6", "MoNR1fPlraZFNleGSnJD"];
+
+          itemQuery = query(
+            collection(db, "produtos"),
+            where("__name__", "in", featuredProducts)
+          );
+        } else if (selectedCategory) {
+          itemQuery = query(
+            collection(db, "produtos"),
+            where("title", "==", selectedCategory)
+          );
+        } else {
+          itemQuery = collection(db, "produtos");
+        }
+
+        const querySnapshot = await getDocs(itemQuery);
+        const products = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setItems(products);
+      } catch (error) {
+        console.error("Erro ao buscar os produtos: ", error);
+      }
     };
 
-    fetchItems().then((data) => setItems(data));
-  }, [isHomePage]);
+    fetchItems();
+  }, [isHomePage, selectedCategory]);
 
   useEffect(() => {
     if (selectedCategory) {
-      setFilteredItems(items.filter(item => item.title === selectedCategory));
+      setFilteredItems(items.filter((item) => item.title === selectedCategory));
     } else {
       setFilteredItems(items);
     }
   }, [items, selectedCategory]);
 
   const handleAddToCart = (item, quantity) => {
-      addToCart(item, quantity);
-      console.log(`Adicionado ao carrinho: ${item.title} - Quantidade: ${quantity}`);
-    
+    addToCart(item, quantity);
+    console.log(`Adicionado ao carrinho: ${item.title} - Quantidade: ${quantity}`);
   };
-  
 
   return (
     <div>
@@ -46,5 +68,3 @@ function ItemListContainer({ greeting, selectedCategory, isHomePage }) {
 }
 
 export default ItemListContainer;
-
-
