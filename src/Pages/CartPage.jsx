@@ -1,15 +1,33 @@
-import React, { useState } from 'react';
-import { useCart } from '../Context/CartContext';
-import { Link } from 'react-router-dom';
-import './CartPage.css';
+import React, { useState } from "react";
+import { useCart } from "../Context/CartContext";
+import { Link } from "react-router-dom";
+import "./CartPage.css";
+import { toast } from "react-toastify";
 
 function CartPage() {
-  const { cart, removeFromCart, clearCart, getTotalPrice } = useCart();
+  const { cart, removeFromCart, clearCart, getTotalPrice, createOrder } = useCart();
   const [purchaseCompleted, setPurchaseCompleted] = useState(false);
 
-  const handlePurchase = () => {
-    clearCart();
-    setPurchaseCompleted(true);
+  const handlePurchase = async () => {
+    if (cart.length === 0) {
+      toast.error("Seu carrinho está vazio. Adicione itens antes de finalizar a compra.");
+      return;
+    }
+
+    const buyer = {
+      name: "Nome do Usuário",
+      phone: "0000-0000",
+      email: "email@example.com",
+    };
+
+    try {
+      const orderId = await createOrder(buyer);
+      toast.success(`Compra realizada com sucesso! ID da ordem: ${orderId}`);
+      clearCart();
+      setPurchaseCompleted(true);
+    } catch (error) {
+      toast.error(error.message || "Erro ao finalizar a compra. Tente novamente.");
+    }
   };
 
   return (
@@ -42,10 +60,7 @@ function CartPage() {
                       </span>
                     </div>
                   </div>
-                  <button
-                    className="cart-item-remove"
-                    onClick={() => removeFromCart(item.id)}
-                  >
+                  <button className="cart-item-remove" onClick={() => removeFromCart(item.id)}>
                     Remover
                   </button>
                 </li>
@@ -69,3 +84,4 @@ function CartPage() {
 }
 
 export default CartPage;
+

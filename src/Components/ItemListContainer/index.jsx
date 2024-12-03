@@ -27,14 +27,19 @@ function ItemListContainer({ greeting, selectedCategory, isHomePage }) {
             collection(db, "produtos"),
             where("title", "==", selectedCategory)
           );
+          if (querySnapshot.empty) {
+            console.error("Nenhum produto encontrado para a consulta.");
+            return;
+          }
+          
         } else {
           itemQuery = collection(db, "produtos");
         }
 
         const querySnapshot = await getDocs(itemQuery);
         const products = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
           ...doc.data(),
+          id: doc.id,
         }));
 
         setItems(products);

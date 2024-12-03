@@ -7,6 +7,8 @@ import ProductsPage from './Pages/ProductsPage';
 import CartPage from './Pages/CartPage';
 import { CartProvider } from './Context/CartContext';
 import Banner from './Components/banner/banner';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -14,13 +16,14 @@ function App() {
       <Router>
         <div className="App">
           <NavBar />
-          <Banner/>
+          <Banner />
           <Routes>
             <Route path="/" element={<ItemListContainer greeting="Magtil Store" isHomePage={true} />} />
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/product/:id" element={<ItemDetailContainer />} />
           </Routes>
+          <ToastContainer />
         </div>
       </Router>
     </CartProvider>
